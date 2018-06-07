@@ -9,11 +9,13 @@ public class Maze : MonoBehaviour {
 
 
 
+    
+
    // public int sizeX, sizeZ;
     public MazeCell cellprefab;
     public float generationStepDelay;
     public MazePassage passagePrefab;
-    public MazeWall wallPrefab;
+    public MazeWall[] wallPrefabs;
     private MazeCell[,] cells;
 
     public IntVector2 size;
@@ -49,8 +51,8 @@ public class Maze : MonoBehaviour {
     }
     private void DoNextGenerationStep(List<MazeCell> activeCells)
     {
-        int currentIndex = activeCells.Count - 1;
-        Debug.Log(currentIndex);    
+        int currentIndex = activeCells.Count - 1 ;
+
         MazeCell currentCell = activeCells[currentIndex];
         if (currentCell.IsFullyInitialized)
         {
@@ -109,11 +111,11 @@ public class Maze : MonoBehaviour {
     }
     public void CreatWall(MazeCell cell, MazeCell otherCell, MazeDirection direction)
     { 
-     MazeWall wall =Instantiate(wallPrefab) as MazeWall;
+     MazeWall wall =Instantiate(wallPrefabs[UnityEngine.Random.Range(0,wallPrefabs.Length)]) as MazeWall;
         wall.Initialize(cell,otherCell,direction);
         if(otherCell!=null)
         {
-            wall = Instantiate(wallPrefab) as MazeWall;
+            wall = Instantiate(wallPrefabs[UnityEngine.Random.Range(0, wallPrefabs.Length)]) as MazeWall;
             wall.Initialize(otherCell, cell, direction.GetOpposite());
         }
     }
